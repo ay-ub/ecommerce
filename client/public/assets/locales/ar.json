@@ -1,0 +1,8 @@
+{
+  "Welcome to React": "مرحبًا بك في React و react-i18next",
+  "navbar": {
+    "Home": "الصفحة الرئيسية",
+    "About": "حول",
+    "Contact": "اتصل"
+  }
+}

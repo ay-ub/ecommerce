@@ -1,0 +1,8 @@
+{
+  "Welcome to React": "Bienvenue à React et react-i18next",
+  "navbar": {
+    "Home": "Accueil",
+    "About": "À propos",
+    "Contact": "Contact"
+  }
+}
