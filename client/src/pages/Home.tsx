@@ -1,49 +1,34 @@
-// import { ArrowDown } from "lucide-react";
 // import { Card } from "@/components/ui/card";
 import SectionTitle from "@/components/SectionTitle";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import ProductsList from "@/components/ProductsList";
 import { Button } from "@/components/ui/button";
+import EmblaCarousel from "@/components/EmblaCarousel";
+import { EmblaOptionsType } from "embla-carousel";
 
 function Home() {
   const shopingByCat = useRef<HTMLDivElement>(null);
-  const [categories, setCategories] = useState<string[]>([]);
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const response = await fetch(
-          "https://fakestoreapi.com/products/categories"
-        );
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getCategories();
-  }, []);
-
+  // const [categories, setCategories] = useState<string[]>([]);
+  // useEffect(() => {
+  //   const getCategories = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "https://fakestoreapi.com/products/categories"
+  //       );
+  //       const data = await response.json();
+  //       setCategories(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getCategories();
+  // }, []);
+  const OPTIONS: EmblaOptionsType = { loop: true };
+  const SLIDE_COUNT = 5;
+  const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
-    <div className='px-4 flex flex-col gap-8'>
-      {/* <section className='container bg-gray-100 dark:bg-slate-900  p-4 rounded-3xl h-[calc(100vh-112px)] relative '>
-        <h1 className='text-4xl font-bold'>Home</h1>
-        <p className='text-lg'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-          tenetur, voluptates, quas, voluptatum dolorum quod tempore
-          necessitatibus quidem quae quibusdam repellendus. Quisquam tenetur,
-          voluptates, quas, voluptatum dolorum quod tempore necessitatibus
-          quidem quae quibusdam repellendus.
-        </p>
-        <span
-          className='absolute bottom-4 left-1/2 -translate-x-1/2 scrollToBtm  p-2 rounded-full border-2 animate-bounce cursor-pointer'
-          onClick={() => {
-            shopingByCat?.current?.scrollIntoView({ behavior: "smooth" });
-          }}
-        >
-          <ArrowDown />
-        </span>
-      </section> */}
-
+    <section className='px-4 flex flex-col gap-8'>
+      <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       {/* <section className='container' ref={shopingByCat}>
         <div className='px-8'>
           <SectionTitle title='Shop by Category' className='flex-1 ' />
@@ -78,7 +63,7 @@ function Home() {
         </div>
         <ProductsList />
       </section>
-    </div>
+    </section>
   );
 }
 

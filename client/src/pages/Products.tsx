@@ -49,15 +49,32 @@ function Products() {
       </div>
       <div className='flex-1'>
         <div className='flex justify-between items-center'>
-          <SectionTitle title='ALL Products ' />
+          <SectionTitle title={`${selectedCategory.toUpperCase()} Products`} />
           <div className='category flex gap-1 items-center'>
             <Button
-              variant={selectedCategory === "All" ? "secondary" : "outline"}
+              variant={
+                selectedCategory.toLowerCase() === "All".toLowerCase()
+                  ? "secondary"
+                  : "outline"
+              }
+              onClick={() => {
+                setSelectedCategory("all");
+              }}
             >
               All
             </Button>
             {categories.map((category) => (
-              <Button variant='outline' className='capitalize'>
+              <Button
+                variant={
+                  selectedCategory.toLowerCase() === category.toLowerCase()
+                    ? "secondary"
+                    : "outline"
+                }
+                className='capitalize'
+                onClick={() => {
+                  setSelectedCategory(category);
+                }}
+              >
                 {category}
               </Button>
             ))}
