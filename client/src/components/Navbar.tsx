@@ -7,15 +7,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Languages, ShoppingBag } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Languages, Menu, ShoppingBag } from "lucide-react";
+import Drower from "./Drower";
+
 // import { useTranslation } from "react-i18next";
 function Navbar() {
   // const { t, i18n } = useTranslation();
@@ -49,27 +43,46 @@ function Navbar() {
         <div className='flex gap-2 items-center justify-end w-[335px]'>
           <SearchBar />
           <ModeToggle />
-          <Sheet>
-            <SheetTrigger>
+          <Drower
+            trigger={
               <span className='rounded-full p-2 bg-gray-100 dark:bg-slate-900 cursor-pointer flex items-center justify-center'>
                 <ShoppingBag className='h-[1.2rem] w-[1.2rem]  ' />
               </span>
-            </SheetTrigger>
-            <SheetContent side={"left"}>
-              <SheetHeader>
-                <SheetTitle className='flex gap-1 items-center'>
-                  <span className='rounded-full p-2 bg-gray-100 dark:bg-slate-900 cursor-pointer flex items-center justify-center'>
-                    <ShoppingBag className='h-[1.2rem] w-[1.2rem]  ' />
-                  </span>
-                  <h3>Shopping Cart</h3>
-                </SheetTitle>
-                <SheetDescription>
-                  {/* products in cart
-                   */}
-                </SheetDescription>
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
+            }
+            title={
+              <>
+                <span className='rounded-full p-2 bg-gray-100 dark:bg-slate-900 cursor-pointer flex items-center justify-center'>
+                  <ShoppingBag className='h-[1.2rem] w-[1.2rem]  ' />
+                </span>
+                <h3>Shopping Cart</h3>
+              </>
+            }
+          >
+            <ShopingProduct />
+            <ShopingProduct />
+            <ShopingProduct />
+          </Drower>
+          <Drower
+            trigger={
+              <span className='rounded-full p-2 bg-gray-100 dark:bg-slate-900 cursor-pointer flex items-center justify-center'>
+                <Menu className='h-[1.2rem] w-[1.2rem]  ' />
+              </span>
+            }
+            title={
+              <>
+                <span className='rounded-full p-2 bg-gray-100 dark:bg-slate-900 cursor-pointer flex items-center justify-center'>
+                  <Menu className='h-[1.2rem] w-[1.2rem]  ' />
+                </span>
+                <h3>
+                  Menu <span className='text-xs'>(Categories)</span>
+                </h3>
+              </>
+            }
+          >
+            <ShopingProduct />
+            <ShopingProduct />
+            <ShopingProduct />
+          </Drower>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -90,3 +103,26 @@ function Navbar() {
 }
 
 export default Navbar;
+
+const ShopingProduct = () => {
+  return (
+    <div className='flex gap-2 items-center justify-between w-full'>
+      <div className='flex gap-2 items-center'>
+        <img
+          src='https://via.placeholder.com/150'
+          alt='product'
+          className='w-[50px] h-[50px] object-cover rounded-md'
+        />
+        <div className='flex flex-col'>
+          <h4 className='text-sm font-semibold'>Product Name</h4>
+          <span className='text-xs font-semibold'>Price</span>
+        </div>
+      </div>
+      <div className='flex gap-2 items-center'>
+        <button className='text-xs font-semibold'>-</button>
+        <span className='text-xs font-semibold'>1</span>
+        <button className='text-xs font-semibold'>+</button>
+      </div>
+    </div>
+  );
+};
