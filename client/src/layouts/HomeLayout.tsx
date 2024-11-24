@@ -9,7 +9,6 @@ function HomeLayout() {
   const [showScrollIcon, setShowScrollIcon] = useState(false);
   useEffect(() => {
     window.addEventListener("scroll", () => {
-      console.log(window.scrollY);
       if (window.scrollY > 100) {
         setShowScrollIcon(true);
       } else {

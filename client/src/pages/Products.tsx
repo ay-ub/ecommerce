@@ -10,24 +10,27 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useEffect, useState } from "react";
+import useFetch from "@/hooks/useFetch";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 function Products() {
-  const [categories, setCategories] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const response = await fetch(
-          "https://fakestoreapi.com/products/categories"
-        );
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getCategories();
-  }, []);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category");
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    category || "all"
+  );
+
+  const productsList = useFetch({
+    url: category
+      ? `https://fakestoreapi.com/products/category/${category}`
+      : "https://fakestoreapi.com/products",
+  });
+  const navigate = useNavigate();
+  const updateCategoryParams = (category: string) => {
+    setSearchParams({ category });
+  };
 
   return (
     <section className='container flex items-start gap-3'>
@@ -50,37 +53,23 @@ function Products() {
       <div className='flex-1'>
         <div className='flex justify-between items-center'>
           <SectionTitle title={`${selectedCategory.toUpperCase()} Products`} />
-          <div className='category flex gap-1 items-center'>
-            <Button
-              variant={
-                selectedCategory.toLowerCase() === "All".toLowerCase()
-                  ? "secondary"
-                  : "outline"
-              }
-              onClick={() => {
-                setSelectedCategory("all");
-              }}
-            >
-              All
-            </Button>
-            {categories.map((category) => (
-              <Button
-                variant={
-                  selectedCategory.toLowerCase() === category.toLowerCase()
-                    ? "secondary"
-                    : "outline"
-                }
-                className='capitalize'
-                onClick={() => {
-                  setSelectedCategory(category);
-                }}
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
+          <CategoryList
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            updateCategoryParams={updateCategoryParams}
+            navigate={navigate}
+          />
         </div>
-        <ProductsList />
+        {productsList.loading ? (
+          <div className='flex justify-center'>
+            <Loader2 className='animate-spin ' />
+          </div>
+        ) : (
+          (productsList.data && productsList.data.length > 0 && (
+            <ProductsList products={productsList.data || []} />
+          )) || <div className='flex justify-center'>No products found</div>
+        )}
+
         <Pagination className='mt-3'>
           <PaginationContent>
             <PaginationItem>
@@ -111,3 +100,56 @@ function Products() {
 }
 
 export default Products;
+
+const CategoryList = ({
+  selectedCategory,
+  setSelectedCategory,
+  updateCategoryParams,
+  navigate,
+}: {
+  selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
+  updateCategoryParams: (category: string) => void;
+  navigate: (path: string) => void;
+}) => {
+  // const [categories, setCategories] = useState<string[]>([]);
+  const categories = useFetch({
+    url: "https://fakestoreapi.com/products/categories",
+  });
+
+  return (
+    <div className='category flex gap-1 items-center'>
+      <Button
+        variant={
+          selectedCategory.toLowerCase() === "All".toLowerCase()
+            ? "secondary"
+            : "outline"
+        }
+        onClick={() => {
+          setSelectedCategory("all");
+          navigate(`/products`);
+        }}
+      >
+        All
+      </Button>
+      {categories.data &&
+        categories.data.map((category, i) => (
+          <Button
+            key={i}
+            variant={
+              selectedCategory.toLowerCase() === category.toLowerCase()
+                ? "secondary"
+                : "outline"
+            }
+            className={`capitalize`}
+            onClick={() => {
+              setSelectedCategory(category);
+              updateCategoryParams(category);
+            }}
+          >
+            {category}
+          </Button>
+        ))}
+    </div>
+  );
+};

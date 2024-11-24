@@ -8,7 +8,7 @@ function SectionTitle({
   return (
     <div className='relative py-2 mb-3'>
       <h1
-        className={` text-3xl font-bold text-gray-800 dark:text-gray-200 text-nowrap capitalize  ${className}`}
+        className={`text-xl md:text-3xl font-bold text-gray-800 dark:text-gray-200 text-nowrap capitalize  ${className}`}
       >
         {title}
       </h1>

@@ -135,3 +135,8 @@ section {
 .embla__slide__img {
   user-select: none;
 }
+
+a.active {
+  background-color: #f1f1f1;
+  color: #000;
+}
