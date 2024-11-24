@@ -1,18 +1,10 @@
-import { useEffect, useState } from "react";
 import ProductsCard from "./ProductsCard";
 
-function ProductsList() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    const getProducts = async () => {
-      const response = await fetch(
-        "https://fakestoreapi.com/products?limit=10"
-      );
-      const products = await response.json();
-      setProducts(products);
-    };
-    getProducts();
-  }, []);
+function ProductsList({
+  products,
+}: {
+  products: { id: number; title: string; price: number; image: string }[];
+}) {
   return (
     <div className='products-list w-full '>
       {products.map((product, index) => (

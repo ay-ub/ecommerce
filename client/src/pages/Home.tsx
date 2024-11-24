@@ -5,24 +5,13 @@ import ProductsList from "@/components/ProductsList";
 import { Button } from "@/components/ui/button";
 import EmblaCarousel from "@/components/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
+import useFetch from "@/hooks/useFetch";
 
 function Home() {
   const shopingByCat = useRef<HTMLDivElement>(null);
-  // const [categories, setCategories] = useState<string[]>([]);
-  // useEffect(() => {
-  //   const getCategories = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "https://fakestoreapi.com/products/categories"
-  //       );
-  //       const data = await response.json();
-  //       setCategories(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getCategories();
-  // }, []);
+  const productList = useFetch({
+    url: "https://fakestoreapi.com/products",
+  });
   const OPTIONS: EmblaOptionsType = { loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
@@ -51,7 +40,7 @@ function Home() {
           </Button>
         </div>
 
-        <ProductsList />
+        <ProductsList products={productList.data || []} />
       </section>
 
       <section>
@@ -61,7 +50,7 @@ function Home() {
             View all
           </Button>
         </div>
-        <ProductsList />
+        <ProductsList products={productList.data || []} />
       </section>
     </section>
   );
