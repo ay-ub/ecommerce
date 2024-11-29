@@ -2,15 +2,12 @@ import * as React from "react";
 import {
   Archive,
   AudioWaveform,
-  Bell,
   Command,
-  File,
   GalleryVerticalEnd,
   LayoutDashboard,
   Settings2,
   ShoppingBag,
   TableOfContents,
-  User,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -58,14 +55,14 @@ const data = {
           title: "Sales statistics",
           url: "sales-statistics",
         },
-        {
-          title: "Order summary",
-          url: "order-summary",
-        },
-        {
-          title: "Alerts",
-          url: "alerts",
-        },
+        // {
+        //   title: "Order summary",
+        //   url: "order-summary",
+        // },
+        // {
+        //   title: "Alerts",
+        //   url: "alerts",
+        // },
       ],
     },
     {
@@ -94,17 +91,17 @@ const data = {
         },
       ],
     },
-    {
-      title: "Customers Management",
-      url: "#",
-      icon: User,
-      items: [
-        {
-          title: "Customer list",
-          url: "customer-list",
-        },
-      ],
-    },
+    // {
+    //   title: "Customers Management",
+    //   url: "#",
+    //   icon: User,
+    //   items: [
+    //     {
+    //       title: "Customer list",
+    //       url: "customer-list",
+    //     },
+    //   ],
+    // },
     {
       title: "Categories Management",
       url: "#",

@@ -1,13 +1,11 @@
-// import { ModeToggle } from "./ModeToggle";
 import SearchBar from "./SearchBar";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-import { Menu, ShoppingBag } from "lucide-react";
+import { Menu } from "lucide-react";
 import Drower from "./Drower";
-import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
-import ShopingProduct from "./ShopingProduct";
 import ToggleLang from "./ToggleLang";
+import ShopingCard from "./ShopingCard";
 
 // import { useTranslation } from "react-i18next";
 function Navbar() {
@@ -50,42 +48,7 @@ function Navbar() {
         </ul>
         <div className='flex gap-2 items-center justify-end w-[335px]'>
           <SearchBar />
-          {/* <ModeToggle /> */}
-          <Drower
-            trigger={
-              <span className='rounded-full p-2 bg-gray-100 dark:bg-slate-900 cursor-pointer flex items-center justify-center'>
-                <ShoppingBag className='h-[1.2rem] w-[1.2rem]  ' />
-              </span>
-            }
-            title={
-              <>
-                <span className='rounded-full p-2 bg-gray-100 dark:bg-slate-900 cursor-pointer flex items-center justify-center'>
-                  <ShoppingBag className='h-[1.2rem] w-[1.2rem]  ' />
-                </span>
-                <h3>Shopping Cart</h3>
-              </>
-            }
-          >
-            <ScrollArea className='h-[calc(100vh-127px)] w-full p-4'>
-              <ShopingProduct />
-              <ShopingProduct />
-              <ShopingProduct />
-              <ShopingProduct />
-              <ShopingProduct />
-              <ShopingProduct />
-              <ShopingProduct />
-              <ShopingProduct />
-              <ShopingProduct />
-              <ShopingProduct />
-              <ShopingProduct />
-              <ShopingProduct />
-            </ScrollArea>
-            <Link to='/checkout' className='w-full'>
-              <Button className='w-full'>
-                <ShoppingBag className='h-[1.2rem] w-[1.2rem] ' /> Checkout
-              </Button>
-            </Link>
-          </Drower>
+          <ShopingCard />
           <Drower
             trigger={
               <span className='rounded-full p-2 bg-gray-100 dark:bg-slate-900 cursor-pointer flex items-center justify-center md:hidden'>
