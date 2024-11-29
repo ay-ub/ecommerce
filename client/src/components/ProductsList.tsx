@@ -1,10 +1,7 @@
+import { Product } from "@/types/product";
 import ProductsCard from "./ProductsCard";
 
-function ProductsList({
-  products,
-}: {
-  products: { id: number; title: string; price: number; image: string }[];
-}) {
+function ProductsList({ products }: { products: Product[] }) {
   return (
     <div className='products-list w-full '>
       {products.map((product, index) => (

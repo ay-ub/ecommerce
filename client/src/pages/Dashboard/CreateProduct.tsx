@@ -17,6 +17,7 @@ import { Product } from "@/types/product";
 
 function CreateProduct() {
   const [product, setProduct] = useState<Product>({
+    id: 0,
     title: "",
     description: "string",
     price: 0,
@@ -30,7 +31,7 @@ function CreateProduct() {
       const files = e.target.files;
       setProduct((prev) => ({
         ...prev,
-        images: [...prev.images, ...Array.from(files)], // Convert FileList to array
+        images: [...(prev.images as []), ...Array.from(files)],
       }));
     }
   };
@@ -180,36 +181,32 @@ function CreateProduct() {
             </div>
           </div>
           <div className='flex gap-3 justify-start p-1 flex-wrap mt-3'>
-            {product.images.length > 0 ? (
-              product.images.map((image, index) => (
-                <div
-                  key={index}
-                  className='w-32 h-32  rounded-lg flex justify-center items-center relative'
+            {product.images?.map((image, index) => (
+              <div
+                key={index}
+                className='w-32 h-32  rounded-lg flex justify-center items-center relative'
+              >
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt='allInOne'
+                  className='h-full object-cover rounded-lg '
+                />
+                {/* add remove img btn */}
+                <button
+                  onClick={() => {
+                    setProduct((prev) => ({
+                      ...prev,
+                      images: prev.images?.filter(
+                        (_, imgIndex) => imgIndex !== index
+                      ),
+                    }));
+                  }}
+                  className='absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex justify-center items-center hover:bg-red-600'
                 >
-                  <img
-                    src={URL.createObjectURL(image)}
-                    alt='allInOne'
-                    className='h-full object-cover rounded-lg '
-                  />
-                  {/* add remove img btn */}
-                  <button
-                    onClick={() => {
-                      setProduct((prev) => ({
-                        ...prev,
-                        images: prev.images.filter(
-                          (_, imgIndex) => imgIndex !== index
-                        ),
-                      }));
-                    }}
-                    className='absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex justify-center items-center hover:bg-red-600'
-                  >
-                    &times;
-                  </button>
-                </div>
-              ))
-            ) : (
-              <div className='text-center'>Please select an image</div>
-            )}
+                  &times;
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>

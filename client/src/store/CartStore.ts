@@ -1,3 +1,4 @@
+import Notify from "@/lib/Notify";
 import { CartState } from "@/types/cart";
 import { Product } from "@/types/product";
 import { create } from "zustand";
@@ -21,12 +22,13 @@ const useCartStore = create<CartState>()(
               totalPrice: state.totalPrice + product.price,
             };
           }
+          Notify(`${product.title} added to your cart!`, "success");
           return {
             cartItems: [...state.cartItems, { ...product, quantity: 1 }],
             totalPrice: state.totalPrice + product.price,
           };
         }),
-      removeFromCart: (productId: string) =>
+      removeFromCart: (productId: number) =>
         set((state) => ({
           cartItems: state.cartItems.filter((item) => item.id !== productId),
           totalPrice:

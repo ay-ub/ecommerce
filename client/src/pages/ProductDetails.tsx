@@ -10,6 +10,8 @@ function ProductDetails() {
   const fetckProductById = useProductsStore((state) => state.fetchProductById);
   const loading = useProductsStore((state) => state.loading);
   const product = useProductsStore((state) => state.currentProduct);
+  const addToCart = useCartStore((state) => state.addToCart);
+
   useEffect(() => {
     if (productId) {
       fetckProductById(productId);
@@ -66,7 +68,7 @@ function ProductDetails() {
               <p>{product.description}</p>
             </div>
             <div className='flex gap-3'>
-              <Button variant='secondary'>
+              <Button variant='secondary' onClick={() => addToCart(product)}>
                 <ShoppingBag /> Add to Cart
               </Button>
               <Button>
@@ -99,6 +101,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import "./embla.css";
 import Loader from "@/components/Loader";
 import useProductsStore from "@/store/ProductsStore";
+import useCartStore from "@/store/CartStore";
 type PropType = {
   slides: string[];
   options?: EmblaOptionsType;
