@@ -1,17 +1,8 @@
+import Loader from "@/components/Loader";
 import ProductsList from "@/components/ProductsList";
 import SectionTitle from "@/components/SectionTitle";
 import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import useFetch from "@/hooks/useFetch";
-import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -62,38 +53,13 @@ function Products() {
         </div>
         {productsList.loading ? (
           <div className='flex justify-center'>
-            <Loader2 className='animate-spin ' />
+            <Loader />
           </div>
         ) : (
           (productsList.data && productsList.data.length > 0 && (
             <ProductsList products={productsList.data || []} />
           )) || <div className='flex justify-center'>No products found</div>
         )}
-
-        <Pagination className='mt-3'>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href='#' />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href='#'>1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href='#' isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href='#'>3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href='#' />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
       </div>
     </section>
   );

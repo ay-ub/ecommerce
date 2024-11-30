@@ -18,6 +18,7 @@ import GeneralSettings from "./pages/Dashboard/GeneralSettings";
 import Categories from "./pages/Dashboard/Categories";
 import AlertPage from "./pages/Dashboard/AlertPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import { ThemeProvider } from "./components/theme-provider";
 function App() {
   return (
     <BrowserRouter>
@@ -32,7 +33,14 @@ function App() {
           <Route path='*' element={<NotFoundPage />} />
         </Route>
         <Route path='/login' element={<Login />} />
-        <Route path='/dashboard' element={<DashboardLayout />}>
+        <Route
+          path='/dashboard'
+          element={
+            <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
+              <DashboardLayout />
+            </ThemeProvider>
+          }
+        >
           <Route path='sales-statistics' element={<SalesStatistics />} />
           <Route
             path='order-summary'

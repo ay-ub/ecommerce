@@ -7,100 +7,87 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 function ProductDetails() {
   const { productId } = useParams<{ productId: string }>();
-  const [product, setProduct] = useState({
-    id: 0,
-    title: "",
-    price: 0,
-    image: "",
-    description: "",
-    category: "",
-  });
+  const fetckProductById = useProductsStore((state) => state.fetchProductById);
+  const loading = useProductsStore((state) => state.loading);
+  const product = useProductsStore((state) => state.currentProduct);
   useEffect(() => {
-    const getSingleProduct = async () => {
-      try {
-        const response = await fetch(
-          `https://fakestoreapi.com/products/${productId}`
-        );
-        const data = await response.json();
-        setProduct(data);
-        // scroll to top smoothly
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getSingleProduct();
+    if (productId) {
+      fetckProductById(productId);
+    }
   }, [productId]);
 
   return (
-    <section className='container'>
-      <div className='min-h-[calc(100vh-96px)] flex justify-between items-start gap-3 flex-col lg:flex-row'>
-        <div className='w-full '>
-          <EmblaCarousel
-            slides={[
-              product.image,
-              product.image,
-              product.image,
-              product.image,
-              product.image,
-              product.image,
-              product.image,
-              product.image,
-              product.image,
-              product.image,
-              product.image,
-              product.image,
-            ]}
-          />
-        </div>
-
-        <div className='flex-1 flex flex-col gap-3'>
-          <p className='opacity-60'>
-            {product.category.length > 20
-              ? `${product.category.substring(0, 20)}...`
-              : product.category}
-          </p>
-          <h3 className='text-3xl font-bold'>{product.title}</h3>
-          <div className='review flex gap-1'>
-            <span className='text-sm'>4.5</span>
-            <span className='text-sm'>⭐</span>
-            <span className='text-sm'>(200 reviews)</span>
-          </div>
-          <p className='flex items-end gap-3'>
-            <del className='opacity-60 text-xl'>$129.00</del>
-            <span className='text-3xl font-bold'>
-              ${product.price.toFixed(2)}
-            </span>
-            <Badge className='text-sm' variant='secondary'>
-              -23% discount
-            </Badge>
-          </p>
-
+    (!loading && product.title !== "" && (
+      <section className='container'>
+        <div className='min-h-[calc(100vh-96px)] flex justify-between items-start gap-3 flex-col lg:flex-row'>
           <div>
-            <h3 className='font-semibold text-xl'>Description</h3>
-            <p>{product.description}</p>
+            <EmblaCarousel
+              slides={[
+                product.image,
+                product.image,
+                product.image,
+                product.image,
+                product.image,
+                product.image,
+                product.image,
+                product.image,
+                product.image,
+                product.image,
+                product.image,
+                product.image,
+              ]}
+            />
           </div>
-          <div className='flex gap-3'>
-            <Button variant='secondary'>
-              <ShoppingBag /> Add to Cart
-            </Button>
-            <Button>
-              <DollarSign /> Buy Now
-            </Button>
+
+          <div className='flex-1 flex flex-col gap-3'>
+            <p className='opacity-60'>
+              {product.category.length > 20
+                ? `${product.category.substring(0, 20)}...`
+                : product.category}
+            </p>
+            <h3 className='text-3xl font-bold'>{product.title}</h3>
+            <div className='review flex gap-1'>
+              <span className='text-sm'>4.5</span>
+              <span className='text-sm'>⭐</span>
+              <span className='text-sm'>(200 reviews)</span>
+            </div>
+            <p className='flex items-end gap-3'>
+              <del className='opacity-60 text-xl'>$129.00</del>
+              <span className='text-3xl font-bold'>
+                ${product.price.toFixed(2)}
+              </span>
+              <Badge className='text-sm' variant='secondary'>
+                -23% discount
+              </Badge>
+            </p>
+
+            <div>
+              <h3 className='font-semibold text-xl'>Description</h3>
+              <p>{product.description}</p>
+            </div>
+            <div className='flex gap-3'>
+              <Button variant='secondary'>
+                <ShoppingBag /> Add to Cart
+              </Button>
+              <Button>
+                <DollarSign /> Buy Now
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className='py-4'>
-        <div className='flex items-center justify-between p-3 md:px-8'>
-          <SectionTitle title='Most popular products' />
-          <button className='btn'>View all</button>
+        <div className='py-4'>
+          <div className='flex items-center justify-between p-3 md:px-8'>
+            <SectionTitle title='Most popular products' />
+            <button className='btn'>View all</button>
+          </div>
+          {/* <ProductsList /> */}
         </div>
-        {/* <ProductsList /> */}
+      </section>
+    )) || (
+      <div className='h-screen flex justify-center items-center'>
+        {loading ? <Loader /> : <span>no data</span>}
       </div>
-    </section>
+    )
   );
 }
 
@@ -110,6 +97,8 @@ import React, { useCallback } from "react";
 import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import "./embla.css";
+import Loader from "@/components/Loader";
+import useProductsStore from "@/store/ProductsStore";
 type PropType = {
   slides: string[];
   options?: EmblaOptionsType;

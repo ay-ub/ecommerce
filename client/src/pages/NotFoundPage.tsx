@@ -8,7 +8,7 @@ function NotFoundPage() {
     navigate(-1);
   };
   return (
-    <div className='h-full flex justify-center items-center flex-col gap-3 text-3xl'>
+    <div className='h-full flex justify-center items-center flex-col gap-3 text-3xl py-52'>
       <h2 className='flex items-center justify-center gap-2 uppercase'>
         404 <Separator orientation='vertical' /> page not found
       </h2>

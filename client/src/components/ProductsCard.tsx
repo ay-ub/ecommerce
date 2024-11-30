@@ -1,17 +1,13 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ShoppingBag } from "lucide-react";
+import useCartStore from "@/store/CartStore";
+import { Product } from "@/types/product";
 
-function ProductsCard({
-  product,
-}: {
-  product: {
-    id: number;
-    title: string;
-    price: number;
-    image: string;
-  };
-}) {
+function ProductsCard({ product }: { product: Product }) {
+  const addToCart = useCartStore((state) => state.addToCart);
+  // const cartItems = useCartStore((state) => state.cartItems);
+  // console.log("cart items = ", cartItems);
   return (
     <div className='product-card  flex flex-col gap-3 items-center bg-white dark:bg-slate-950 rounded-md p-3'>
       <Link to={`/products/${product.id}`} className='product-card-link '>
@@ -32,7 +28,12 @@ function ProductsCard({
           ${product.price.toFixed(2)}
         </p>
 
-        <Button className='w-full mt-3 capitalize'>
+        <Button
+          className='w-full mt-3 capitalize'
+          onClick={() => {
+            addToCart(product);
+          }}
+        >
           <ShoppingBag className='h-[1.2rem] w-[1.2rem] ' /> Add to Cart
         </Button>
       </div>
